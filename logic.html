@@ -2,7 +2,7 @@
 <html>
 
 <head>
-<title>Logic</title>
+<title>Robot Logic</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -18,28 +18,142 @@ Textile Designing Robot
 <a href="hardware.html">Hardware</a>
 <a href="software.html">Software</a>
 <a href="simulation.html">Simulation</a>
-<a href="logic.html">Color Detection Logic</a>
-<a href="pseudocodes.html">Pseudocodes</a>
+<a href="logic.html">Logic</a>
 <a href="analysis.html">Analysis</a>
 
 </div>
 
 <div class="content">
 
- <h1>Logic</h1>
+<h1>Mathematical Logic</h1>
 
-color detection logic
+<p>
+This section describes the mathematical models used for robotic arm
+motion planning and colour detection.
+</p>
 
+<h2>Inverse Kinematics</h2>
 
-<h2>Challenges</h2>
+<p>
+The robot arm is modeled as a two-link planar manipulator with a
+rotating base joint.
+</p>
+
+<p>
+
+Base rotation:
+
+</p>
+
+<p>
+θ<sub>base</sub> = atan2(y,x)
+</p>
+
+<p>
+Planar distance from base:
+</p>
+
+<p>
+r = √(x² + y²)
+</p>
+
+<p>
+Using the cosine rule for the elbow joint:
+</p>
+
+<p>
+cos(θ₂) = (r² + z² − L₁² − L₂²) / (2L₁L₂)
+</p>
+
+<p>
+θ₂ = acos(cos(θ₂))
+</p>
+
+<p>
+Shoulder angle:
+</p>
+
+<p>
+θ₁ = atan2(z,r) − atan2(L₂ sinθ₂ , L₁ + L₂ cosθ₂)
+</p>
+
+<h2>Servo Angle Limits</h2>
+
+<p>
+Servos can only rotate between 0° and 180°. Therefore computed
+angles are clamped within this range before being sent to the
+hardware.
+</p>
+
+<h2>Servo PWM Control</h2>
+
+<p>
+Servo motors are controlled using PWM signals with a frequency of
+50 Hz.
+</p>
+
+<p>
+Pulse width corresponds to the servo angle:
+</p>
+
+<p>
+Duty = min_duty + (angle / 180) × (max_duty − min_duty)
+</p>
+
+<h2>Linear Trajectory Planning</h2>
+
+<p>
+The robot moves between two points using linear interpolation.
+</p>
+
+<p>
+
+x(t) = x₀ + t(xf − x₀)
+
+</p>
+
+<p>
+
+y(t) = y₀ + t(yf − y₀)
+
+</p>
+
+<p>
+
+z(t) = z₀ + t(zf − z₀)
+
+</p>
+
+<p>
+where t varies from 0 to 1.
+</p>
+
+<h2>Colour Sensor Principle</h2>
+
+<p>
+The colour sensor contains photodiodes with red, green and blue
+filters. The sensor outputs a frequency proportional to the light
+intensity detected by each filter.
+</p>
+
+<p>
+By comparing the frequencies of red, green and blue components,
+the dominant colour of the object can be determined.
+</p>
+
+<h2>Calibration Considerations</h2>
 
 <ul>
-<li>Model mismatch with real robot</li>
-<li>Trajectory tuning</li>
-<li>Simulation lag</li>
+
+<li>Servo limits were clamped between 0° and 180° to prevent hardware damage.</li>
+
+<li>Colour readings require a short delay to stabilize sensor output.</li>
+
+<li>Linear interpolation was used to produce smooth robotic motion.</li>
+
 </ul>
 
 </div>
 
 </body>
-</html> 
+</html>

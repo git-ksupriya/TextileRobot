@@ -18,25 +18,193 @@ Textile Designing Robot
 <a href="hardware.html">Hardware</a>
 <a href="software.html">Software</a>
 <a href="simulation.html">Simulation</a>
-<a href="logic.html">Color Detection Logic</a>
-<a href="pseudocodes.html">Pseudocodes</a>
+<a href="logic.html">Logic</a>
 <a href="analysis.html">Analysis</a>
 
 </div>
 
 <div class="content">
 
- <h1>Software</h1>
+<h1>Robot Software</h1>
 
-<h2>Challenges</h2>
+<p>
+The real robot is programmed using MicroPython and executed on a 
+Raspberry Pi Pico using the Thonny IDE. The program performs two 
+main tasks: colour detection using a colour sensor and robotic arm 
+motion control using inverse kinematics.
+</p>
 
-<ul>
-<li>Model mismatch with real robot</li>
-<li>Trajectory tuning</li>
-<li>Simulation lag</li>
-</ul>
+<h2>Hardware Pin Connections</h2>
+
+<table border="1">
+
+<tr>
+<th>Component</th>
+<th>Pin</th>
+</tr>
+
+<tr>
+<td>TCS3200 S0</td>
+<td>GPIO 7</td>
+</tr>
+
+<tr>
+<td>TCS3200 S1</td>
+<td>GPIO 8</td>
+</tr>
+
+<tr>
+<td>TCS3200 S2</td>
+<td>GPIO 9</td>
+</tr>
+
+<tr>
+<td>TCS3200 S3</td>
+<td>GPIO 10</td>
+</tr>
+
+<tr>
+<td>TCS3200 OUT</td>
+<td>GPIO 6</td>
+</tr>
+
+<tr>
+<td>Base Servo</td>
+<td>GPIO 0</td>
+</tr>
+
+<tr>
+<td>Shoulder Servo</td>
+<td>GPIO 1</td>
+</tr>
+
+<tr>
+<td>Elbow Servo</td>
+<td>GPIO 3</td>
+</tr>
+
+</table>
+
+
+<h2>Colour Detection Algorithm</h2>
+
+<p>
+The colour sensor outputs a frequency proportional to the intensity 
+of red, green and blue light. The program measures these frequencies 
+and determines the dominant colour.
+</p>
+
+<pre>
+
+function detect_color()
+
+    set sensor filter to RED
+    wait for stabilization
+    measure red frequency
+
+    set sensor filter to GREEN
+    wait for stabilization
+    measure green frequency
+
+    set sensor filter to BLUE
+    wait for stabilization
+    measure blue frequency
+
+    if red frequency is smallest
+        return RED
+
+    else if green frequency is smallest
+        return GREEN
+
+    else if blue frequency is smallest
+        return BLUE
+
+    else
+        return UNKNOWN
+
+end function
+
+</pre>
+
+
+<h2>Inverse Kinematics Algorithm</h2>
+
+<p>
+To move the robotic arm to a desired position in space, inverse 
+kinematics is used to compute the joint angles required to reach 
+that position.
+</p>
+
+<pre>
+
+function inverse_kinematics(x,y,z)
+
+    compute base angle
+    base = atan2(y,x)
+
+    compute planar distance
+    r = sqrt(x² + y²)
+
+    compute elbow angle using cosine rule
+
+    compute shoulder angle using triangle geometry
+
+    convert angles from radians to degrees
+
+    clamp angles within servo limits (0 to 180)
+
+    return base, shoulder, elbow
+
+end function
+
+</pre>
+
+
+<h2>Trajectory Execution</h2>
+
+<pre>
+
+start position = (x0,y0,z0)
+end position = (xf,yf,zf)
+
+for i from 0 to steps
+
+    t = i / steps
+
+    x = x0 + t*(xf-x0)
+    y = y0 + t*(yf-y0)
+    z = z0 + t*(zf-z0)
+
+    angles = inverse_kinematics(x,y,z)
+
+    move servos to angles
+
+end for
+
+</pre>
+
+
+<h2>Running the Program in Thonny</h2>
+
+<ol>
+
+<li>Connect Raspberry Pi Pico to the computer using USB.</li>
+
+<li>Open the Thonny IDE.</li>
+
+<li>Select MicroPython (Raspberry Pi Pico) as the interpreter.</li>
+
+<li>Copy the Python program into the editor.</li>
+
+<li>Save the program to the Pico as <b>main.py</b>.</li>
+
+<li>Click Run to execute the program.</li>
+
+<li>The robot will begin colour detection and motion execution.</li>
+
+</ol>
 
 </div>
 
 </body>
-</html> 
+</html>
