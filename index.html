@@ -9,7 +9,7 @@
 <body>
 
 <header>
-<a href="index.html" class="home-icon">🏠</a>
+<a href="index.html" class="home-icon">/\</a>
 Textile Designing Robot
 </header>
 
@@ -19,7 +19,7 @@ Textile Designing Robot
 <a href="software.html">Software</a>
 <a href="simulation.html">Simulation</a>
 <a href="logic.html">Color Detection Logic</a>
-<a href="pseudocodes.html">Pseudocodes</a>
+<a href="pseudocodes.html">Workflow</a>
 <a href="analysis.html">Analysis</a>
 
 </div>
@@ -92,17 +92,115 @@ deploying them to the physical robot.
 
 <h2>System Pipeline</h2>
 
-<ol>
-<li>System initializes servos and colour sensor.</li>
-<li>Cloth is placed in the robot workspace.</li>
-<li>The colour sensor detects cloth colour.</li>
-<li>The controller processes RGB values.</li>
-<li>A suitable paint colour or pattern is selected.</li>
-<li>The robotic arm dips the sponge into paint.</li>
-<li>The robot executes the predefined painting pattern.</li>
-<li>The sponge periodically re-dips in paint.</li>
-<li>Pattern completes and robot returns to home position.</li>
-</ol>
+<dl>
+    <dt>
+        1.System Initialization​
+    </dt>
+    <dd>
+        The Raspberry Pi Pico initializes the servo motors of the robotic arm, the TCS230 color sensor,
+and predefined painting patterns stored in memory.​
+    </dd>
+</dl>
+
+<dl>
+    <dt>
+2.Cloth Placement and Detection​    </dt>
+    <dd>
+        The fabric is placed in the fixed workspace, ensuring proper alignment beneath the color
+sensor for accurate color detection.​
+    </dd>
+</dl>
+
+<dl>
+    <dt>
+        3.Color Sensing using TCS230/TCS3200​
+    </dt>
+    <dd>
+        The color sensor emits light onto the cloth surface and measures the reflected intensity for red,
+green, and blue components by switching internal photodiode filters.​
+    </dd>
+</dl>
+
+<dl>
+    <dt>
+        4.Signal Processing and Color Identification​
+    </dt>
+    <dd>
+        The sensor outputs frequency signals corresponding to RGB values, which are processed by
+the microcontroller to identify the dominant cloth color.​
+    </dd>
+</dl>
+
+<dl>
+    <dt>
+        5.Paint Selection Logic​
+    </dt>
+    <dd>
+        Based on the detected color, the controller selects the appropriate paint or painting pattern
+from predefined mappings.​
+    </dd>
+</dl>
+
+<dl>
+    <dt>
+        6.Motion Planning of Robotic Arm​
+    </dt>
+    <dd>
+        Predefined joint angles and trajectories for the robotic arm are retrieved, ensuring smooth and
+collision-free movement within the fixed workspace.​
+    </dd>
+</dl>
+
+<dl>
+    <dt>
+        7.Initial Paint Dipping Operation​
+    </dt>
+    <dd>
+        Before painting begins, the arm moves the sponge end effector to a specified paint container
+location and dips it into the selected paint.​
+    </dd>
+</dl>
+
+<dl>
+    <dt>
+        8.Painting Operation​
+    </dt>
+    <dd>
+        The robotic arm performs the painting pattern with controlled servo movements while maintaining
+continuous contact between the sponge and the cloth.​
+    </dd>
+</dl>
+
+<dl>
+    <dt>
+        9.Periodic Paint Re-Dipping (at Regular Intervals)​
+    </dt>
+    <dd>
+        At predefined time or step intervals, the arm temporarily pauses the painting motion and moves
+the sponge back to the specified paint location to re-dip it, ensuring sufficient paint is available
+and preventing paint depletion.​
+    </dd>
+</dl>
+
+<dl>
+    <dt>
+        10.Resume Painting Pattern​ 
+    </dt>
+    <dd>
+        After re-dipping, the arm returns to the last painting position and continues executing the
+remaining pattern smoothly.​
+    </dd>
+</dl>
+
+<dl>
+    <dt>
+        11.Pattern Completion and Reset​
+    </dt>
+    <dd>
+        Once the pattern is completed, the arm returns to its home position.​
+    </dd>
+</dl>
+
 
 <h2>Concepts Used</h2>
 
