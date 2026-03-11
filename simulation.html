@@ -26,22 +26,145 @@ Textile Designing Robot
 
 <div class="content">
 
- <h1>Simulation</h1>
+<h1>Robot Simulation</h1>
 
 <video controls>
 <source src="videos/simulation.mp4" type="video/mp4">
 </video>
 
-<h2>Challenges</h2>
+<h2>Purpose of Simulation</h2>
+
+<p>
+Before implementing the robotic arm on hardware, the system behaviour was
+tested using a simulation environment. Simulation allows us to verify robot
+movement, workspace limits, object interaction, and algorithm logic without
+risking damage to hardware components.
+</p>
+
+<p>
+The simulation for this project was developed using
+<strong>CoppeliaSim</strong>, a robotics simulation platform that supports
+physics modelling, robot kinematics, vision sensors, and Lua scripting.
+</p>
+
+<h2>Simulation Environment</h2>
+
+<p>
+CoppeliaSim provides a virtual robotics environment where robots, sensors,
+and objects can be modeled and controlled. It allows integration of
+robot motion planning, inverse kinematics, and sensor simulation in a
+single platform.
+</p>
+
+<h3>Key Components Used in Simulation</h3>
 
 <ul>
-<li>Model mismatch with real robot</li>
-<li>Trajectory tuning</li>
-<li>Simulation lag</li>
+<li>uArm robotic manipulator model</li>
+<li>Vision sensor to simulate colour detection</li>
+<li>Gripper tool acting as sponge end-effector</li>
+<li>Virtual cloth surface</li>
+<li>Paint buckets (red and blue)</li>
+<li>Pickup cylinder representing the sponge tool</li>
+</ul>
+
+<h2>How the Simulation was Built</h2>
+
+<ol>
+<li>The uArm robot model was imported from the CoppeliaSim model library.</li>
+<li>A vision sensor was positioned above the cloth to simulate colour detection.</li>
+<li>Two paint buckets were placed in the robot workspace.</li>
+<li>A cylinder object was used to represent the sponge tool.</li>
+<li>Inverse kinematics was enabled for the robotic arm joints.</li>
+<li>A Lua script was attached to the robot model to control the sequence of actions.</li>
+</ol>
+
+<h2>Simulation Workflow</h2>
+
+<ol>
+<li>The robot moves to the cloth position.</li>
+<li>The vision sensor reads the cloth colour.</li>
+<li>The system selects the appropriate paint bucket.</li>
+<li>The robot picks up the sponge tool.</li>
+<li>The sponge is dipped into the selected paint bucket.</li>
+<li>The robot moves to the cloth surface.</li>
+<li>The robot paints a line pattern on the cloth.</li>
+<li>The sponge is returned to its original position.</li>
+</ol>
+
+<h2>Pseudocode for Modified Simulation Function</h2>
+
+<pre>
+
+Initialize robot handles and sensor
+
+loop forever
+
+    move robot to cloth location
+    read color from vision sensor
+
+    if red detected
+        select blue paint bucket
+    else
+        select red paint bucket
+
+    move robot to sponge location
+    activate gripper and pick sponge
+
+    move to selected paint bucket
+    dip sponge in paint
+
+    move to cloth position
+    paint line trajectory
+
+    return sponge to original position
+
+end loop
+
+</pre>
+
+<h2>Features Demonstrated in Simulation</h2>
+
+<ul>
+<li>Robot motion using inverse kinematics</li>
+<li>Vision sensor based colour detection</li>
+<li>Object grasping using gripper</li>
+<li>Trajectory execution for painting</li>
+<li>Visual paint path generation</li>
+</ul>
+
+<h2>Why Simulation Cannot be Directly Used for the Real Robot</h2>
+
+<p>
+Although the simulation models the robot behaviour, the code written in
+CoppeliaSim uses the <strong>Lua simulation API</strong>, which is specific
+to the simulator. Functions such as object handles, drawing objects,
+and virtual sensors exist only within the simulation environment.
+</p>
+
+<p>
+In the real robotic system, hardware components such as servo motors,
+microcontrollers, and physical sensors must be controlled using
+embedded software (MicroPython / C / Thonny). Therefore the control logic must
+be rewritten to interact with actual hardware interfaces such as
+PWM signals and sensor inputs.
+</p>
+
+<p>
+Simulation primarily helps with validating the robot workflow,
+testing algorithms, and visualizing the system behaviour before
+deploying it to real hardware.
+</p>
+
+<h2>Challenges Faced in Simulation</h2>
+
+<ul>
+<li>Matching simulation workspace with real robot dimensions</li>
+<li>Adjusting joint limits for realistic movement</li>
+<li>Sensor noise and lighting differences</li>
+<li>Trajectory tuning for smooth painting motion</li>
 </ul>
 
 </div>
 
 </body>
-</html> 
-
+</html>
