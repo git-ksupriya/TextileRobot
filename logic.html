@@ -29,29 +29,89 @@ Textile Designing Robot
 <h1>Mathematical Logic</h1>
 
 <p>
-This section describes the mathematical models used for robotic arm
-motion planning and colour detection.
+This section describes the mathematical modelling used for controlling
+the robotic arm and detecting colours during the textile painting process.
 </p>
 
-<h2>Inverse Kinematics</h2>
+<h2>Robot Configuration</h2>
 
 <p>
-The robot arm is modeled as a two-link planar manipulator with a
-rotating base joint.
-</p>
-
-<p>
-
-Base rotation:
-
+The proposed painting robot is modelled as a <b>3R planar manipulator
+mounted on a rotational base</b>.
 </p>
 
 <p>
-θ<sub>base</sub> = atan2(y,x)
+The system consists of the following joints:
+</p>
+
+<ul>
+
+<li>
+<b>Joint 0 (Base Joint)</b> – Revolute joint allowing the entire arm
+to rotate about the Z-axis.
+</li>
+
+<li>
+<b>Joint 1, Joint 2, Joint 3</b> – Three revolute joints forming a
+planar R-R-R manipulator.
+</li>
+
+<li>
+<b>Links</b> – Three rigid links with lengths L₁, L₂ and L₃.
+</li>
+
+</ul>
+
+<p>
+Therefore the robot has <b>4 Degrees of Freedom (DOF)</b>.
 </p>
 
 <p>
-Planar distance from base:
+The base of the robot is assumed to be located at the origin:
+</p>
+
+<p>
+O = (0 , 0 , 0)
+</p>
+
+<p>
+The desired target point on the cloth surface is defined as:
+</p>
+
+<p>
+P = (x , y , z)
+</p>
+
+
+<h2>Base Rotation</h2>
+
+<p>
+The base joint rotates the entire robotic arm toward the target
+point in the XY plane.
+</p>
+
+<p>
+The base rotation angle is calculated as:
+</p>
+
+<p>
+θ₀ = atan2(y , x)
+</p>
+
+<p>
+This aligns the planar arm with the target direction.
+</p>
+
+
+<h2>Projection into Planar Workspace</h2>
+
+<p>
+After base rotation, the target point is projected into the working
+plane of the robotic arm.
+</p>
+
+<p>
+The horizontal distance from the base is:
 </p>
 
 <p>
@@ -59,98 +119,159 @@ r = √(x² + y²)
 </p>
 
 <p>
-Using the cosine rule for the elbow joint:
+The planar arm must therefore reach the point:
 </p>
 
 <p>
-cos(θ₂) = (r² + z² − L₁² − L₂²) / (2L₁L₂)
+(r , z)
+</p>
+
+
+<h2>Forward Kinematics</h2>
+
+<p>
+Let θ₁, θ₂ and θ₃ be the joint angles of the planar arm and
+L₁, L₂, L₃ be the link lengths.
 </p>
 
 <p>
-θ₂ = acos(cos(θ₂))
+The end-effector position in the plane is given by:
 </p>
 
 <p>
-Shoulder angle:
+x<sub>p</sub> =
+L₁ cos(θ₁) +
+L₂ cos(θ₁ + θ₂) +
+L₃ cos(θ₁ + θ₂ + θ₃)
 </p>
 
 <p>
-θ₁ = atan2(z,r) − atan2(L₂ sinθ₂ , L₁ + L₂ cosθ₂)
+z<sub>p</sub> =
+L₁ sin(θ₁) +
+L₂ sin(θ₁ + θ₂) +
+L₃ sin(θ₁ + θ₂ + θ₃)
 </p>
+
+<p>
+For a valid solution:
+</p>
+
+<p>
+x<sub>p</sub> = r  
+</p>
+
+<p>
+z<sub>p</sub> = z
+</p>
+
+
+<h2>Inverse Kinematics</h2>
+
+<p>
+The inverse kinematics problem consists of finding the joint angles:
+</p>
+
+<p>
+θ₀ , θ₁ , θ₂ , θ₃
+</p>
+
+<p>
+given the desired target point (x , y , z) and the link lengths
+L₁ , L₂ , L₃.
+</p>
+
+<p>
+The base angle θ₀ is computed first, followed by the planar arm
+angles using trigonometric relations.
+</p>
+
 
 <h2>Servo Angle Limits</h2>
 
 <p>
-Servos can only rotate between 0° and 180°. Therefore computed
-angles are clamped within this range before being sent to the
-hardware.
-</p>
-
-<h2>Servo PWM Control</h2>
-
-<p>
-Servo motors are controlled using PWM signals with a frequency of
-50 Hz.
+Servo motors used in the robot can rotate only within a
+limited range.
 </p>
 
 <p>
-Pulse width corresponds to the servo angle:
+Therefore all computed angles are clamped within:
 </p>
 
 <p>
-Duty = min_duty + (angle / 180) × (max_duty − min_duty)
+0° ≤ θ ≤ 180°
 </p>
+
+<p>
+before sending commands to the servo motors.
+</p>
+
 
 <h2>Linear Trajectory Planning</h2>
 
 <p>
-The robot moves between two points using linear interpolation.
+The robot moves smoothly between two points using linear interpolation.
 </p>
 
 <p>
-
 x(t) = x₀ + t(xf − x₀)
-
 </p>
 
 <p>
-
 y(t) = y₀ + t(yf − y₀)
-
 </p>
 
 <p>
-
 z(t) = z₀ + t(zf − z₀)
-
 </p>
 
 <p>
 where t varies from 0 to 1.
 </p>
 
-<h2>Colour Sensor Principle</h2>
+
+<h2>Servo PWM Control</h2>
 
 <p>
-The colour sensor contains photodiodes with red, green and blue
-filters. The sensor outputs a frequency proportional to the light
-intensity detected by each filter.
+Servo motors are controlled using PWM signals at approximately
+50 Hz frequency.
 </p>
 
 <p>
-By comparing the frequencies of red, green and blue components,
+The duty cycle determines the servo angle:
+</p>
+
+<p>
+Duty = min_duty + (angle / 180) × (max_duty − min_duty)
+</p>
+
+
+<h2>Colour Detection Principle</h2>
+
+<p>
+The colour sensor contains photodiodes with red, green and blue filters.
+Each filter detects light intensity corresponding to its colour component.
+</p>
+
+<p>
+The sensor outputs frequency values proportional to the detected
+light intensity.
+</p>
+
+<p>
+By comparing the frequency values of the red, green and blue channels,
 the dominant colour of the object can be determined.
 </p>
+
 
 <h2>Calibration Considerations</h2>
 
 <ul>
 
-<li>Servo limits were clamped between 0° and 180° to prevent hardware damage.</li>
+<li>Servo angles are clamped between safe operating limits.</li>
 
-<li>Colour readings require a short delay to stabilize sensor output.</li>
+<li>Sensor readings require small delays for stabilization.</li>
 
-<li>Linear interpolation was used to produce smooth robotic motion.</li>
+<li>Linear interpolation ensures smooth robotic movement.</li>
 
 </ul>
 
