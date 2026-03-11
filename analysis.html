@@ -26,21 +26,122 @@ Textile Designing Robot
 
 <div class="content">
 
- <h1>Advantages</h1>
+<h1>System Analysis</h1>
 
- <h1>Limitations</h1>
-
- <h1>Future work</h1>
-
-<h2>Challenges</h2>
+<h2>Advantages</h2>
 
 <ul>
-<li>Model mismatch with real robot</li>
-<li>Trajectory tuning</li>
-<li>Simulation lag</li>
+
+<li>
+Automation of repetitive textile painting tasks reduces manual effort.
+</li>
+
+<li>
+The robotic arm provides repeatable and consistent motion which improves
+pattern uniformity.
+</li>
+
+<li>
+The system combines colour sensing with robotic manipulation, enabling
+basic intelligent behaviour.
+</li>
+
+<li>
+Using simulation before hardware implementation reduces development risk
+and allows testing of motion algorithms.
+</li>
+
+<li>
+The design is modular, allowing components such as sensors or actuators
+to be replaced or upgraded easily.
+</li>
+
+</ul>
+
+
+<h2>Limitations</h2>
+
+<ul>
+
+<li>
+Servo motors provide limited precision compared to industrial robotic arms.
+</li>
+
+<li>
+The working area of the robot is limited by the arm length and joint range.
+</li>
+
+<li>
+Colour detection accuracy can be affected by ambient lighting conditions.
+</li>
+
+<li>
+The robot currently performs simple linear strokes and cannot create
+complex textile patterns.
+</li>
+
+<li>
+The system does not include feedback control or position sensing, which
+may reduce accuracy over time.
+</li>
+
+</ul>
+
+
+<h2>Challenges Faced</h2>
+
+<ul>
+
+<li>
+Differences between simulation behaviour and real robot motion.
+</li>
+
+<li>
+Tuning trajectory parameters to achieve smooth servo movement.
+</li>
+
+<li>
+Calibrating the colour sensor to correctly detect different colours.
+</li>
+
+<li>
+Ensuring correct inverse kinematics solutions within servo limits.
+</li>
+
+<li>
+Managing timing delays so the servos and sensors operate reliably.
+</li>
+
+</ul>
+
+
+<h2>Future Improvements</h2>
+
+<ul>
+
+<li>
+Implement closed-loop control using feedback sensors for higher accuracy.
+</li>
+
+<li>
+Add additional degrees of freedom to allow more complex painting motions.
+</li>
+
+<li>
+Improve colour detection using camera-based vision systems.
+</li>
+
+<li>
+Implement pattern generation algorithms for automated textile designs.
+</li>
+
+<li>
+Integrate wireless control or a graphical interface for easier operation.
+</li>
+
 </ul>
 
 </div>
 
 </body>
-</html> 
+</html>
