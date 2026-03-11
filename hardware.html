@@ -15,6 +15,7 @@ Textile Designing Robot
 
 <div class="sidebar">
 
+<a href="index.html">Home</a>
 <a href="hardware.html">Hardware</a>
 <a href="software.html">Software</a>
 <a href="simulation.html">Simulation</a>
@@ -26,26 +27,72 @@ Textile Designing Robot
 
 <div class="content">
 
-<h1>Hardware</h1>
+<h1>Hardware Components</h1>
 
-<img src="images/Screenshot 2024-08-11 205220.png">
+<h2>1. Servo Motors</h2>
 
-<h2>Components</h2>
+<p>
+The robotic arm uses four servo motors to control the movement of each joint.
+Servo motors allow precise control of angular position using PWM signals.
+Each servo contains a DC motor, gearbox, control circuit, and potentiometer
+that provides position feedback to maintain the desired angle.
+</p>
 
-<ul>
-<li>Servo Motors</li>
-<li>Arduino Controller</li>
-<li>Camera Module</li>
-<li>Robotic Arm Frame</li>
-</ul>
-
-<h2>Challenges</h2>
+<h3>Servo Roles</h3>
 
 <ul>
-<li>Motor calibration</li>
-<li>Mechanical stability</li>
-<li>Wire management</li>
+<li><b>Servo 1 – Base Servo:</b> Rotates the entire arm in the horizontal plane.</li>
+<li><b>Servo 2 – Arm Servo:</b> Controls forward and backward arm extension.</li>
+<li><b>Servo 3 – Vertical Servo:</b> Moves the arm up and down for dipping and stamping.</li>
+<li><b>Servo 4 – Orientation Servo:</b> Keeps the sponge facing downward during painting.</li>
 </ul>
+
+<h2>2. Raspberry Pi Pico</h2>
+
+<p>
+The Raspberry Pi Pico acts as the central controller of the robotic system.
+It generates PWM signals to control the servo motors and processes input
+signals from the color sensor.
+</p>
+
+<ul>
+<li>26 GPIO pins</li>
+<li>Supports PWM control</li>
+<li>Low power consumption</li>
+<li>Compact and low cost</li>
+</ul>
+
+<h2>3. Colour Sensor (TCS3200 / TCS230)</h2>
+
+<p>
+The colour sensor is used to detect the colour of the cloth before painting.
+It measures the intensity of red, green, and blue light reflected from the
+surface.
+</p>
+
+<p>
+The sensor contains photodiodes with RGB filters. It converts the detected
+light intensity into frequency signals, which are processed by the
+microcontroller to determine the dominant colour.
+</p>
+
+<h2>4. End Effector (Sponge Tool)</h2>
+
+<p>
+A sponge is used as the end effector for painting. The sponge has a
+predefined shape that allows uniform stamping patterns on the cloth.
+This simple design avoids the need for complex grippers while still
+achieving repeatable textile patterns.
+</p>
+
+<h2>5. Power Supply</h2>
+
+<p>
+The system is powered using a 5V power supply capable of providing
+sufficient current to operate the Raspberry Pi Pico and the servo motors.
+Stable power supply is important to ensure smooth servo motion and
+reliable sensor readings.
+</p>
 
 </div>
 

@@ -31,28 +31,101 @@ Textile Designing Robot
 <img src="images/robot.jpg">
 
 <p>
-The Textile Designing Robot is a robotic arm developed to automate
-pattern creation using color detection and precise motion control.
+The Textile Designing Robot is a robotic arm designed to automate simple textile
+painting and stamping tasks. The system detects the colour of the cloth using
+a colour sensor and then performs predefined painting patterns using a sponge
+end-effector. The goal of the project is to demonstrate how robotic manipulation,
+sensor integration, and basic kinematic principles can be applied to automate
+repetitive textile decoration tasks.
 </p>
 
-<h2>Key Specifications</h2>
+<h2>Project Objectives</h2>
 
 <ul>
+<li>Design a simple 4-DOF robotic arm for textile painting.</li>
+<li>Automate basic stamping and painting operations.</li>
+<li>Use servo motors for precise motion control.</li>
+<li>Detect cloth colour and select paint accordingly.</li>
+<li>Demonstrate robotic control using predefined motion sequences.</li>
+<li>Reduce manual effort in textile stamping.</li>
+</ul>
+
+<h2>Robot Specifications</h2>
+
+<ul>
+<li>Type: 3R planar manipulator with rotating base</li>
 <li>Degrees of Freedom: 4 DOF</li>
-<li>Controller: Arduino</li>
-<li>Programming: Python + C</li>
-<li>Vision: OpenCV</li>
+<li>Workspace: Fixed predefined workspace</li>
+<li>End Effector: Sponge-based painting tool</li>
+<li>Controller: Raspberry Pi Pico</li>
+</ul>
+
+<h2>Hardware Components Used</h2>
+
+<ul>
+<li>4 Servo Motors</li>
+<li>Raspberry Pi Pico Microcontroller</li>
+<li>TCS3200 / TCS230 Color Sensor</li>
+<li>Sponge End Effector</li>
+<li>Robot Arm Frame and Links</li>
+<li>5V 2A Power Supply</li>
+</ul>
+
+<h2>Software and Programming</h2>
+
+<ul>
+<li>Programming Language: MicroPython</li>
+<li>IDE: Thonny IDE</li>
+<li>Servo Control: PWM Signals</li>
+<li>Sensor Processing: RGB frequency analysis</li>
+</ul>
+
+<h2>Simulation Environment</h2>
+
+<p>
+Before implementing the system on hardware, the robotic arm behaviour
+and motion planning were tested in simulation using
+<strong>CoppeliaSim</strong>. The simulation allowed us to verify the
+robot workspace, joint movements, and painting trajectories before
+deploying them to the physical robot.
+</p>
+
+<h2>System Pipeline</h2>
+
+<ol>
+<li>System initializes servos and colour sensor.</li>
+<li>Cloth is placed in the robot workspace.</li>
+<li>The colour sensor detects cloth colour.</li>
+<li>The controller processes RGB values.</li>
+<li>A suitable paint colour or pattern is selected.</li>
+<li>The robotic arm dips the sponge into paint.</li>
+<li>The robot executes the predefined painting pattern.</li>
+<li>The sponge periodically re-dips in paint.</li>
+<li>Pattern completes and robot returns to home position.</li>
+</ol>
+
+<h2>Concepts Used</h2>
+
+<ul>
+<li>Robot Kinematics</li>
+<li>Inverse Kinematics</li>
+<li>Servo Motor Control using PWM</li>
+<li>Sensor Integration</li>
+<li>Colour Detection using RGB Frequency Output</li>
+<li>Predefined Motion Planning</li>
 </ul>
 
 </div>
 
 <footer>
 
-<h3>About Us</h3>
+<h3>Project Team</h3>
 
 <p>
-Team Robotics Project  
-Department of Artificial Intelligence Engineering
+Supriya – CB.SC.U4AIE24025 <br>
+Meghana – CB.SC.U4AIE24022 <br>
+Shiva Nandana – CB.SC.U4AIE24049 <br>
+Naga Sri Harini – CB.SC.U4AIE24010
 </p>
 
 </footer>
