@@ -127,63 +127,8 @@ The planar arm must therefore reach the point:
 </p>
 
 
-<h2>Forward Kinematics</h2>
-
-<p>
-Let θ₁ and θ₂ be the joint angles of the planar arm and
-L₁, L₂ be the link lengths.
-</p>
-
-<p>
-The end-effector position in the plane is given by:
-</p>
-
-<p>
-x<sub>p</sub> =
-L₁ cos(θ₁) +
-L₂ cos(θ₁ + θ₂) 
-</p>
-
-<p>
-z<sub>p</sub> =
-L₁ sin(θ₁) +
-L₂ sin(θ₁ + θ₂) 
-</p>
-
-<p>
-For a valid solution:
-</p>
-
-<p>
-x<sub>p</sub> = r  
-</p>
-
-<p>
-z<sub>p</sub> = z
-</p>
-
-
 <h2>Inverse Kinematics</h2>
 
-<p>
-The inverse kinematics algorithm calculates the servo angles required to move the robotic arm
-end-effector to a desired 3D position (x, y, z).
-</p>
-
-<p>
-First, the base rotation angle is calculated using <b>atan2(y, x)</b>. 
-This determines how much the base servo must rotate to face the target point in the XY plane.
-</p>
-
-<p>
-Next, the horizontal distance from the base to the target point is calculated as:
-</p>
-
-<p>r = √(x² + y²)</p>
-
-<p>
-This converts the 3D problem into a 2D plane (r, z) for solving the arm movement.
-</p>
 
 <p>
 The distance from the shoulder joint to the target point is then calculated as:
