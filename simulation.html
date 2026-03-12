@@ -160,10 +160,13 @@ deploying it to real hardware.
 <h2>Challenges Faced in Simulation</h2>
 
 <ul>
-<li>Matching simulation workspace with real robot dimensions</li>
-<li>Adjusting joint limits for realistic movement</li>
-<li>Sensor noise and lighting differences</li>
-<li>Trajectory tuning for smooth painting motion</li>
+<li>Sensor Indexing: Correcting the raw data packet shift to accurately map RGB values.
+</li>
+<li>Physics Anchoring: Setting buckets to "Static" to prevent them from moving when touched.
+</li>
+<li>Visual Obstruction: Disabling gripper "detectability" so the sensor could see the cloth.
+</li>
+<li>Logic Syncing: Adding precise delays so sensor readings didn't occur during movement.</li>
 </ul>
 
 </div>

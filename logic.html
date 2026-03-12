@@ -36,7 +36,7 @@ the robotic arm and detecting colours during the textile painting process.
 <h2>Robot Configuration</h2>
 
 <p>
-The proposed painting robot is modelled as a <b>3R planar manipulator
+The proposed painting robot is modelled as a <b>2R planar manipulator
 mounted on a rotational base</b>.
 </p>
 
@@ -52,12 +52,12 @@ to rotate about the Z-axis.
 </li>
 
 <li>
-<b>Joint 1, Joint 2, Joint 3</b> – Three revolute joints forming a
-planar R-R-R manipulator.
+<b>Joint 1, Joint 2</b> – Two revolute joints forming a
+planar R-R manipulator.
 </li>
 
 <li>
-<b>Links</b> – Three rigid links with lengths L₁, L₂ and L₃.
+<b>Links</b> – Two rigid links with lengths L₁ and L₂.
 </li>
 
 </ul>
@@ -130,8 +130,8 @@ The planar arm must therefore reach the point:
 <h2>Forward Kinematics</h2>
 
 <p>
-Let θ₁, θ₂ and θ₃ be the joint angles of the planar arm and
-L₁, L₂, L₃ be the link lengths.
+Let θ₁ and θ₂ be the joint angles of the planar arm and
+L₁, L₂ be the link lengths.
 </p>
 
 <p>
@@ -141,15 +141,13 @@ The end-effector position in the plane is given by:
 <p>
 x<sub>p</sub> =
 L₁ cos(θ₁) +
-L₂ cos(θ₁ + θ₂) +
-L₃ cos(θ₁ + θ₂ + θ₃)
+L₂ cos(θ₁ + θ₂) 
 </p>
 
 <p>
 z<sub>p</sub> =
 L₁ sin(θ₁) +
-L₂ sin(θ₁ + θ₂) +
-L₃ sin(θ₁ + θ₂ + θ₃)
+L₂ sin(θ₁ + θ₂) 
 </p>
 
 <p>
@@ -168,21 +166,66 @@ z<sub>p</sub> = z
 <h2>Inverse Kinematics</h2>
 
 <p>
-The inverse kinematics problem consists of finding the joint angles:
+The inverse kinematics algorithm calculates the servo angles required to move the robotic arm
+end-effector to a desired 3D position (x, y, z).
 </p>
 
 <p>
-θ₀ , θ₁ , θ₂ , θ₃
+First, the base rotation angle is calculated using <b>atan2(y, x)</b>. 
+This determines how much the base servo must rotate to face the target point in the XY plane.
 </p>
 
 <p>
-given the desired target point (x , y , z) and the link lengths
-L₁ , L₂ , L₃.
+Next, the horizontal distance from the base to the target point is calculated as:
+</p>
+
+<p>r = √(x² + y²)</p>
+
+<p>
+This converts the 3D problem into a 2D plane (r, z) for solving the arm movement.
 </p>
 
 <p>
-The base angle θ₀ is computed first, followed by the planar arm
-angles using trigonometric relations.
+The distance from the shoulder joint to the target point is then calculated as:
+</p>
+
+<p>d = √(r² + z²)</p>
+
+<p>
+Using the law of cosines, the elbow joint angle θ₂ is calculated:
+</p>
+
+<p>cos(θ₂) = (d² − L₁² − L₂²) / (2 L₁ L₂)</p>
+
+<p>
+The shoulder angle θ₁ is then computed using trigonometric relations:
+</p>
+
+<p>
+θ₁ = atan2(z, r) − atan2(L₂ sinθ₂ , L₁ + L₂ cosθ₂)
+</p>
+
+<p>
+The calculated angles are converted from radians to degrees so they can be used
+to control the servo motors.
+</p>
+
+<p>
+Finally, the angles are limited to the servo operating range of <b>0° to 180°</b>
+to ensure safe movement of the robotic joints.
+</p>
+
+<p>The function returns three angles:</p>
+
+<ul>
+<li><b>Base angle (θbase)</b> – rotation of the base toward the target</li>
+<li><b>Shoulder angle (θ1)</b> – elevation of the first arm link</li>
+<li><b>Elbow angle (θ2)</b> – bending of the second arm link</li>
+</ul>
+
+<p>
+These angles are then sent to the servo motors to move the robotic arm
+to the desired coordinate.
 </p>
 
 
